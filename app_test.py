@@ -47,6 +47,9 @@ def upload():
     file.save(os.path.join('docs', filename))
     file_location = os.path.join('docs', filename)
     solver.upload_file_knowledge(file_location)
+
+    # file = request.files['knowledge-file']
+    # solver.upload_file_knowledge(file)
     return jsonify({'message': 'Upload successful'})
 
 @app.route('/query', methods=['POST'])

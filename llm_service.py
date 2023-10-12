@@ -1,6 +1,8 @@
 import json
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.document_loaders import DirectoryLoader
+from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import TextLoader
 from langchain.vectorstores import FAISS
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import AnalyticDB
@@ -11,12 +13,19 @@ import requests
 import sys
 import argparse
 
+from dotenv import dotenv_values
+environment_file = '/etc/environmentadb'
+dotenv_values(environment_file)
+
 class LLMService:
     def __init__(self, cfg) -> None:
         self.cfg = cfg
         self.vector_db = self.connect_adb()
     
     def post_to_llm_eas(self, query_prompt):
+        # url = os.environ.get('PAI_ENDPOINT')
+        # author_key = os.environ.get('PAI_ACCESS_TOKEN')
+
         url = self.cfg['EASCfg']['url']
         author_key = self.cfg['EASCfg']['token']
         headers = {
@@ -39,6 +48,11 @@ class LLMService:
             database=self.cfg['ADBCfg']['PG_DATABASE'],
             user=self.cfg['ADBCfg']['PG_USER'],
             password=self.cfg['ADBCfg']['PG_PASSWORD'],
+            
+            # host=os.environ.get('PG_HOST'),
+            # database=os.environ.get('PG_DATABASE'),
+            # user=os.environ.get('PG_USER'),
+            # password=os.environ.get('PG_PASSWORD'),
             driver='psycopg2cffi',
             port=5432,
         )
@@ -63,6 +77,26 @@ class LLMService:
         self.vector_db.add_documents(docs)
         end_time = time.time()
         print("Insert into AnalyticDB Success. Cost time: {} s".format(end_time - start_time))
+
+    def upload_file_knowledge(self, file):
+        # Check the file extension
+        if file.lower().endswith('.pdf'):
+            # Load PDF file
+            docs = PyPDFLoader(file).load()
+        elif file.lower().endswith(('.md', '.txt', '.html')):
+            # Load text file
+            docs = TextLoader(file).load()
+        else:
+            # Unsupported file format
+            raise ValueError("Unsupported file format")
+
+        text_splitter = CharacterTextSplitter(chunk_size=int(self.cfg['create_docs']['chunk_size']), chunk_overlap=self.cfg['create_docs']['chunk_overlap'])
+        docs = text_splitter.split_documents(docs)
+        start_time = time.time()
+        self.vector_db.add_documents(docs)
+        end_time = time.time()
+        print("Insert into AnalyticDB Success. Cost time: {} s".format(end_time - start_time))  
+             
         
     def create_user_query_prompt(self, query):
         docs = self.vector_db.similarity_search(query, k=int(self.cfg['query_topk']))

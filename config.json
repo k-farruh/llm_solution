@@ -1,20 +1,20 @@
 {
   "embedding": {
-    "model_dir": "/code/",
+    "model_dir": "/root/LLM_Solution/embedding_model/",
     "embedding_model": "SGPT-125M-weightedmean-nli-bitfit",
     "embedding_dimension": 768
   },
   "EASCfg": {
-    "url": "http://xxxxx.pai-eas.aliyuncs.com/api/predict/llama2_model",
-    "token": "xxxxxx"
+    "url": "http://5568953365102451.vpc.ap-southeast-1.pai-eas.aliyuncs.com/api/predict/test_llama2_adbpg_eas",
+    "token": "ZDY3MDQyNTQ1YWRhOTM1YjdiZDc5ZmIwZjk4YTE3NDM4Y2MyYTViZg=="
   },
   "ADBCfg": {
-    "PG_HOST": "gp.xxxxx.rds.aliyuncs.com",
-    "PG_DATABASE": "database name, usually it's user name",
-    "PG_USER": "pg_user",
-    "PG_PASSWORD": "password"
+    "PG_HOST": "gp-gs55rkqe13cd4q6e4-master.gpdbmaster.singapore.rds.aliyuncs.com",
+    "PG_DATABASE": "kbsuser",
+    "PG_USER": "kbsuser",
+    "PG_PASSWORD": "Asdf1234%"
   },
-  "create_docs":{
+  "create_docs": {
     "chunk_size": 200,
     "chunk_overlap": 0,
     "docs_dir": "docs/",
