@@ -1,1 +1,5 @@
 streamlit>=1.26.0
+alibabacloud_tea_util 
+alibabacloud_opensearch_util
+alibabacloud_credentials
+python-dotenv

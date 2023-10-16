@@ -1,0 +1,41 @@
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to False.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://192.168.3.106:8501
+  External URL: http://8.219.194.97:8501
+
+2023-10-15 04:10:53.675 Uncaught app exception
+Traceback (most recent call last):
+  File "/root/opensearch-webui/venv/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
+    exec(code, module.__dict__)
+  File "/root/opensearch-webui/streamlit_app.py", line 68, in <module>
+    ref_doc = response["body"]["result"]["data"][0]["reference"][0]["title"]
+KeyError: 'reference'
+2023-10-15 04:11:08.476 Uncaught app exception
+Traceback (most recent call last):
+  File "/root/opensearch-webui/venv/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
+    exec(code, module.__dict__)
+  File "/root/opensearch-webui/streamlit_app.py", line 68, in <module>
+    ref_doc = response["body"]["result"]["data"][0]["reference"][0]["title"]
+TypeError: 'NoneType' object is not subscriptable
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to False.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://192.168.3.106:8501
+  External URL: http://8.219.194.97:8501
+
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to False.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://192.168.3.106:8501
+  External URL: http://8.219.194.97:8501
+
