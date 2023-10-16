@@ -6,13 +6,12 @@ OpenSearch by Alibaba Cloud is a powerful search engine that enables businesses 
 
 Alibaba Cloud OpenSearch serves as both a retrieval system and a vector database, enhancing search accuracy and efficiency. Perfect for various industries, OpenSearch offers real-time indexing, search analytics, relevance tuning, and multi-dimensional filtering. It supports multiple languages and integrates seamlessly with Alibaba Cloud services.
 
-pip install alibabacloud_tea_util 
-pip install alibabacloud_opensearch_util
-pip install alibabacloud_credentials
+![Example WebUI](./media/opensearch_webui.jpg)
+
 
 # 📦 Streamlit App Starter Kit 
 ```
-⬆️ (Replace above with your app's name)
+⬆️ (Alibaba Cloud OpenSearch WebUI)
 ```
 
 Description of the app ...
