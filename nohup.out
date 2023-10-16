@@ -39,3 +39,38 @@ Collecting usage statistics. To deactivate, set browser.gatherUsageStats to Fals
   Network URL: http://192.168.3.106:8501
   External URL: http://8.219.194.97:8501
 
+2023-10-16 15:04:51.626 Uncaught app exception
+Traceback (most recent call last):
+  File "/root/opensearch-webui/venv/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
+    exec(code, module.__dict__)
+  File "/root/opensearch-webui/streamlit_app.py", line 68, in <module>
+    ref_doc = response["body"]["result"]["data"][0]["reference"][0]["title"]
+KeyError: 'reference'
+2023-10-16 15:05:36.787 Uncaught app exception
+Traceback (most recent call last):
+  File "/root/opensearch-webui/venv/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
+    exec(code, module.__dict__)
+  File "/root/opensearch-webui/streamlit_app.py", line 68, in <module>
+    ref_doc = response["body"]["result"]["data"][0]["reference"][0]["title"]
+TypeError: 'NoneType' object is not subscriptable
+2023-10-16 15:06:38.533 Uncaught app exception
+Traceback (most recent call last):
+  File "/root/opensearch-webui/venv/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
+    exec(code, module.__dict__)
+  File "/root/opensearch-webui/streamlit_app.py", line 68, in <module>
+    ref_doc = response["body"]["result"]["data"][0]["reference"][0]["title"]
+KeyError: 'reference'
+2023-10-16 15:07:33.045 Uncaught app exception
+Traceback (most recent call last):
+  File "/root/opensearch-webui/venv/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
+    exec(code, module.__dict__)
+  File "/root/opensearch-webui/streamlit_app.py", line 68, in <module>
+    category = response["body"]["result"]["data"][0]["reference"][0]["category"]
+KeyError: 'reference'
+2023-10-16 15:07:47.997 Uncaught app exception
+Traceback (most recent call last):
+  File "/root/opensearch-webui/venv/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
+    exec(code, module.__dict__)
+  File "/root/opensearch-webui/streamlit_app.py", line 71, in <module>
+    if category == options:
+NameError: name 'category' is not defined

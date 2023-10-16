@@ -65,13 +65,22 @@ if st.session_state.messages[-1]["role"] != "assistant":
         with st.spinner("Thinking..."):
             response = generate_response(prompt, hf_email, hf_pass)
             # st.write(response)
-            ref_doc = response["body"]["result"]["data"][0]["reference"][0]["title"]
-            category = response["body"]["result"]["data"][0]["reference"][0]["category"]
-            if category == options:
-                answer = response["body"]["result"]["data"][0]["answer"]
-                st.write(ref_doc)
-            else:
-                answer = "Sorry you don't have access to this information"
+            # category = response["body"]["result"]["data"][0]["reference"][0]["category"]
+            answer = response["body"]["result"]["data"][0]["answer"]
+
+            if "body" in response and "result" in response["body"] and "data" in response["body"]["result"] and len(response["body"]["result"]["data"]) > 0:
+                data = response["body"]["result"]["data"][0]
+                if "reference" in data and len(data["reference"]) > 0 and "title" in data["reference"][0]:
+                    title = data["reference"][0]["title"]
+                    # Perform the action based on the existence of the title
+                    if title:
+                        ref_doc = title
+                        st.write(ref_doc)
+                        # Action to perform when the title exists
+                        print("Title exists:", title)
+            # if category == options:
+            #     ref_doc = response["body"]["result"]["data"][0]["reference"][0]["title"]
+            #     st.write(ref_doc)
             
             st.write(answer)
             

@@ -74,11 +74,11 @@ def opensearch_query(prompt, filter):
                 "chat": {
                     "prompt_config": {
                         "language": "English"
-                    },
-                    "retrieve": {
-                        "doc": {
-                            "filter": f"category=\"{filter}\""
-                        }
+                    }
+                },
+                "retrieve": {
+                    "doc": {
+                        "filter": f"category=\"{filter}\""
                     }
                 }
             }
