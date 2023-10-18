@@ -74,3 +74,4 @@ Traceback (most recent call last):
   File "/root/opensearch-webui/streamlit_app.py", line 71, in <module>
     if category == options:
 NameError: name 'category' is not defined
+2023-10-17 16:28:07.310 Session with id faeb0c2f-74ca-41fc-b94e-b9d34246e34b is already connected! Connecting to a new session.
