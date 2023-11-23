@@ -1,0 +1,71 @@
+sorting model
+DeepFM¶
+
+Introduction¶
+DeepFM is an improved model with FM module added on the basis of WideAndDeep. The FM module and the DNN module share the same feature, that is, the same Embedding.
+
+
+
+Configuration instructions¶
+model_config: {
+   model_class: "DeepFM"
+   feature_groups: {
+     group_name: "deep"
+     feature_names: "hour"
+     feature_names: "c1"
+     ...
+     feature_names: "site_id_app_id"
+     wide_deep: DEEP
+   }
+   feature_groups: {
+     group_name: "wide"
+     feature_names: "hour"
+     feature_names: "c1"
+     ...
+     feature_names: "c21"
+     wide_deep: WIDE
+   }
+
+   deepfm {
+     wide_output_dim: 16
+
+     dnn {
+       hidden_units: [128, 64, 32]
+     }
+
+     final_dnn {
+       hidden_units: [128, 64]
+     }
+     l2_regularization: 1e-5
+   }
+   embedding_regularization: 1e-7
+}
+
+
+
+model_class: 'DeepFM', no modification required
+feature_groups:
+Two feature_groups are required: wide group and deep group, group name cannot be changed
+
+deepfm: parameters related to deepfm
+dnn: parameter configuration of deep part
+
+hidden_units: The number of channels in each layer of dnn, that is, the number of neurons
+
+
+wide_output_dim: the size of the output of the wide part
+final_dnn: Integrate the parameter input of wide part, fm part and deep part, you can choose whether to use it
+
+hidden_units: The number of channels in each layer of dnn, that is, the number of neurons
+
+
+embedding_regularization: Add regularization to the embedding part to prevent overfit
+
+
+
+Example Config¶
+DeepFM_demo.config
+
+
+Reference Papers¶
+DeepFM

@@ -1,0 +1,52 @@
+Model Serving¶
+If you want to deploy the model file to your own production environment, you can use tensorflow serving to deploy it.
+Here, we recommend using the model online service (PAI-EAS) on Alibaba Cloud for online reasoning. For details, refer to the console upload model section of EAS Deployment Model.
+Example deployment model:
+#!/bin/bash
+bizdate=$1
+
+cat << EOF > eas_config_rank.json
+{
+  "name": "dbmtl_rank_ml",
+  "generate_token": "true",
+  "model_path": "oss://XXX/${bizdate}/export/best/",
+  "processor": "tensorflow_cpu",
+  "oss_endpoint": "oss-us-west-1.aliyuncs.com",
+  "token": "XXXX",
+  "metadata": {
+     "region": "us-west-1",
+     "instance": 4,
+     "cpu": 8,
+     "gpu": 0,
+     "memory": 8000
+  }
+}
+EOF
+cat eas_config_rank.json
+
+# create service
+# /home/admin/usertools/tools/eascmd -i <AccessKeyID> -k <AccessKeySecret> \
+# -e pai-eas.us-west-1.aliyuncs.com create eas_config_rank.json
+
+# update service
+echo "-------------------update service-------------------"
+/home/admin/usertools/tools/eascmd -i <AccessKeyID> -k <AccessKeySecret>\
+-e pai-eas.us-west-1.aliyuncs.com\
+modify dbmtl_rank_ml -s eas_config_rank.json
+
+status=$?
+
+# View services
+echo "-------------------view service-------------------"
+/home/admin/usertools/tools/eascmd -i <AccessKeyID> -k <AccessKeySecret>\
+-e pai-eas.us-west-1.aliyuncs.com desc dbmtl_rank_ml
+
+exit ${status}
+
+
+After the model is deployed online, the request data needs to be constructed online. For details, please refer to: TensorFlow Service Request Construction
+If you use fg, you can refer to: Prediction part of RTP FG
+If you need to use PaiRec for online recommendation service, you can refer to:
+Getting Started
+project example
+PaiRec Deployment Service

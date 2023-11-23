@@ -1,5 +1,21 @@
-streamlit>=1.26.0
-alibabacloud_tea_util 
-alibabacloud_opensearch_util
-alibabacloud_credentials
-python-dotenv
+# langchain related
+langchain==0.0.231
+langchain-serve
+psycopg2==2.9.3
+psycopg2cffi==2.9.0
+pandas==1.2.4
+datasets==2.12.0 
+sentence-transformers==2.2.2
+
+# huggingface related
+transformers>=4.31.0 # to adapt llama2
+accelerate
+tokenizers
+unstructured[local-inference]
+
+# vectorstore related
+faiss-cpu==1.7.4
+
+# Flask API related
+flask==2.3.2
+pyjwt==2.8.0

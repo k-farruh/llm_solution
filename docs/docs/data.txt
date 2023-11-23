@@ -1,0 +1,201 @@
+Data Format¶
+As the recommended algorithm package of Alibaba Cloud PAI, EasyRec can seamlessly connect to MaxCompute data tables, and can also read large files in OSS. It also supports HDFS files in the E-MapReduce environment and csv files in the local environment.
+In order to identify the field information in these input data, it is necessary to set the corresponding field name and field type, set the default value, and help EasyRec to read the corresponding data. Set the label field as the training target. In order to adapt to the multi-objective model, the label field can be set to multiple.
+In addition, there are some parameters such as prefetch_size, which are parameters that need to be set for reading data in tensorflow.
+
+A configuration of the simplest data config¶
+In this configuration, there are only three fields, user ID (uid), item ID (item_id), and label field (click).
+OdpsInputV2 means to read MaxCompute tables as input data.
+data_config {
+   batch_size: 2048
+   input_fields {
+     input_name: "click"
+     input_type: INT32
+   }
+   input_fields {
+     input_name: "uid"
+     input_type: STRING
+   }
+   input_fields {
+     input_name: "item_id"
+     input_type: STRING
+   }
+   label_fields: "click"
+   num_epochs: 1
+   prefetch_size: 32
+   input_type: OdpsInputV2
+}
+
+
+
+
+input_fields:¶
+input_fields field:
+
+input_name, for reference in subsequent feature_config.featurs and data_config.label_fields;
+input_type, the default is STRING, you can not set it. Optional fields refer to DatasetConfig.FieldType
+default_val, the default is empty, note that the default value is set to a string
+
+If input is of type INT32 and the default value is 6, then default_val is "6";
+If input is of type DOUBLE and the default value is 0.5, then default_val is "0.5";
+
+
+input_dim, currently only applicable to RawFeature type, can specify multi-dimensional data, such as an embedding vector of a picture.
+user_define_fn, currently only applicable to label, specifies the user-defined function name to process the label.
+user_define_fn_path, if you need to import user-defined functions on oss/hdfs, you need to specify the function path.
+user_define_fn_res_type, specifies the output value type of the user-defined function.
+
+   input_fields: {
+     input_name: "label"
+     input_type: DOUBLE
+     default_val: "0"
+   }
+
+
+   input_fields {
+     input_name:'clk'
+     input_type: DOUBLE
+     user_define_fn: 'tf.math.log1p'
+   }
+
+
+   input_fields {
+     input_name:'clk'
+     input_type: INT64
+     user_define_fn: 'remap_lbl'
+     user_define_fn_path: 'samples/demo_script/process_lbl.py'
+     user_define_fn_res_type: INT64
+   }
+
+
+process_lbl.py:
+import numpy as np
+def remap_lbl(labels):
+     res = np.where(labels<5, 0, 1)
+     return res
+
+
+
+Notice:
+
+The order of input_fields and the order of the fields in the odps table do not need to guarantee a one-to-one correspondence
+The order of input_fields and the fields in the csv file must be one-to-one correspondence (the csv file has no header)
+The input_type in input_fields must be consistent with the type of the corresponding column in the odps table/csv file
+It is not recommended to use the FLOAT type on maxcompute, and it is recommended to use the DOUBLE type
+
+
+
+
+input_type:¶
+Several input_types are currently supported:
+
+CSVInput, indicating that the data format is CSV, pay attention to use with separator
+
+Need to specify train_input_path and eval_input_path
+
+train_input_path: "data/test/dwd_avazu_ctr_train.csv"
+eval_input_path: "data/test/dwd_avazu_ctr_test.csv"
+
+
+
+OdpsInputV2, if you run EasyRec on MaxCompute, use OdpsInputV2
+
+Need to specify train_input_path and eval_input_path
+It can be passed in through the pai command, refer to
+
+
+OdpsInputV3, if accessing MaxCompute Table locally or on DataScience, use OdpsInputV3
+HiveInput and HiveParquetInput, access Hive table on Hadoop cluster
+
+Need to configure hive_train_input and hive_eval_input
+Refer to HiveConfig
+
+hive_train_input {
+   host: "192.168.1"
+   username: "admin"
+   table_name: "census_income_train_simple"
+}
+hive_eval_input {
+   host: "192.168.1"
+   username: "admin"
+   table_name: "census_income_eval_simple"
+}
+
+
+
+If you need to use RTP FG, then:
+
+Run EasyRec on EMR or locally, you should use RTPInput or HiveRTPInput;
+To run on Odps, you should use OdpsRTPInput
+
+
+KafkaInput & DatahubInput: the input type needed for real-time training
+
+KafkaInput needs to configure kafka_train_input and kafka_eval_input
+
+Reference KafkaServer
+
+
+DatahubServer needs to configure datahub_train_input and datahub_eval_input
+
+ReferenceDataHubServer
+
+
+
+
+
+
+
+separator:¶
+
+Input using csv format needs to specify separator as the delimiter between columns
+The default is a half-width comma ","
+Invisible characters can be used as separators (binary separators), such as '\001', '\002', etc.
+
+
+
+label_fields¶
+
+Label-related column names, at least one can be set, and multiple can be set according to the needs of the algorithm, such as multi-objective algorithm
+   label_fields: "click"
+   label_fields: "buy"
+
+
+
+The column name must have appeared in data_config
+
+
+
+prefetch_size¶
+
+data prefetch, in batch, the default is 32
+Setting the prefetch size can increase the speed of data loading and prevent data bottlenecks
+
+
+
+shard && file_shard¶
+
+Shard shards the data set according to the sample granularity
+file_shard slices the dataset by file granularity
+
+Suitable for scenarios where the input consists of many small files
+Not applicable to maxcompute table data source
+
+
+
+
+
+shuffle¶
+
+The default value is true, set to false if shuffle is not done
+Set shuffle, you can shuffle the training data to get better results
+If there are multiple input files, shuffle will also be performed between the files
+
+
+
+shuffle_buffer_size¶
+
+default value 32
+The size of the shuffle queue, representing the number of samples per shuffle
+The bigger the training effect is, the better the memory consumption will be.
+It is usually recommended to do a global shuffle before training, and use a relatively small buffer_size for shuffle or no shuffle during training
