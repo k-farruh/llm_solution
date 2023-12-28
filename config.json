@@ -1,15 +1,25 @@
 {
   "embedding": {
-    "model_dir": "embedding_model/",
+    "model_dir": "/root/LLM_Solution/embedding_model/",
     "embedding_model": "SGPT-125M-weightedmean-nli-bitfit",
     "embedding_dimension": 768
   },
-  "create_docs":{
+  "EASCfg": {
+    "url": "http://llm-demo002.5568953365102451.ap-southeast-1.pai-eas.aliyuncs.com/",
+    "token": "YTY3MGFlNGI5ZGI2Njc5N2EyYWNmMjgxNjc5Mjg0MWZhM2FlMWM1MQ=="
+  },
+  "ADBCfg": {
+    "PG_HOST": "gp-gs59x0rs3qx5v255fo-master.gpdbmaster.singapore.rds.aliyuncs.com",
+    "PG_DATABASE": "kbsuser",
+    "PG_USER": "kbsuser",
+    "PG_PASSWORD": "Asdf1234%"
+  },
+  "create_docs": {
     "chunk_size": 200,
     "chunk_overlap": 0,
     "docs_dir": "docs/",
     "glob": "**/*"
   },
-  "query_topk": 4,
+  "result_topk": 4,
   "prompt_template": "Answer user questions concisely and professionally based on the following known information. If you cannot get an answer from it, please say \"This question cannot be answered based on known information\" or \"Insufficient relevant information has been provided\", no fabrication is allowed in the answer, please use English for the answer. \n=====\nKnown information:\n{context}\n=====\nUser question:\n{question}"
 }

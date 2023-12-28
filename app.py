@@ -49,7 +49,7 @@ def upload():
 def query():
     user_query = request.json['query']
     user_prompt_template = solver.create_user_query_prompt(user_query)
-    answer = solver.user_query(user_query)
+    answer = solver.content_query(user_query)
     return jsonify({'answer': answer})
 
 if __name__ == '__main__':
